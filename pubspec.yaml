@@ -17,6 +17,7 @@ dependencies:
   mobile_scanner: ^7.1.2
   intl: ^0.18.1
   file_picker: ^5.5.0
+  crypto: ^3.0.0
 
 dev_dependencies:
   flutter_test:
