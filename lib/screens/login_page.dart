@@ -4,9 +4,8 @@ import '../services/database_service.dart';
 
 /// Login-Seite für das App-Passwort.
 ///
-/// Diese Seite wird angezeigt, wenn der Benutzer die App startet und noch
-/// kein gültiges Passwort eingegeben hat. Login ist Pflicht – man kann
-/// nicht über Zurück-Navigation oder Drawer hineingelangen.
+/// Der Nutzer muss sich hier mit dem App-Passwort anmelden.
+/// Ohne erfolgreichen Login gelangt man nicht in die App.
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -45,10 +44,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => false, // verhindert "Zurück"-Navigation
+      onWillPop: () async => false, // verhindert Zurück-Navigation
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('App-Passwort'),
+          title: const Text('Login'),
           automaticallyImplyLeading: false, // kein Zurück-Pfeil
         ),
         body: Padding(
@@ -89,8 +88,8 @@ class _LoginPageState extends State<LoginPage> {
                           width: 16,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white),
                           ),
                         )
                       : const Text('Einloggen'),

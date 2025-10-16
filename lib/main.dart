@@ -7,30 +7,20 @@ import 'screens/stats_page.dart';
 import 'screens/gallery_page.dart';
 import 'screens/login_page.dart';
 import 'screens/settings_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 /// Haupteinstiegspunkt der Anwendung.
 ///
-/// Hier wird das [MaterialApp] konfiguriert und die Routen für die
-/// verschiedenen Seiten registriert. Bevor die App gestartet wird,
-/// werden die SharedPreferences geladen, um zu prüfen, ob der Nutzer
-/// bereits eingeloggt ist. So kann entschieden werden, ob die Login-Seite
-/// oder direkt die Startseite angezeigt werden soll.
+/// Beim Start wird IMMER zuerst die Login-Seite geladen.
+/// Der Nutzer muss sich anmelden, bevor er in die App gelangt.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final prefs = await SharedPreferences.getInstance();
-  final bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-  runApp(MyApp(isLoggedIn: isLoggedIn));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  /// Gibt an, ob der Nutzer bereits eingeloggt ist. Wird beim Start in main()
-  /// aus den SharedPreferences gelesen.
-  final bool isLoggedIn;
+  const MyApp({Key? key}) : super(key: key);
 
-  const MyApp({Key? key, required this.isLoggedIn}) : super(key: key);
-
-  /// Basis-URL für alle API-Aufrufe (nur noch für Seiten, die sie brauchen).
+  /// Basis-URL für API-Aufrufe (falls noch benötigt).
   static const String baseUrl = 'https://indoor-regio-cup.de';
 
   @override
@@ -41,10 +31,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      // Zeige je nach Login-Status die passende Startseite
-      initialRoute: isLoggedIn ? '/' : '/login',
+      // App startet IMMER mit Login
+      initialRoute: '/login',
       routes: {
-        '/login': (context) => const LoginPage(), // ⚡ ohne baseUrl
+        '/login': (context) => const LoginPage(),
         '/': (context) => const HomePage(baseUrl: baseUrl),
         '/upload': (context) => const UploadPage(baseUrl: baseUrl),
         '/scan': (context) => const ScanPage(baseUrl: baseUrl),
