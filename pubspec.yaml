@@ -2,7 +2,7 @@ name: indoor_regio_cup_app
 description: Eine mobile Flutter‑App für den IRC Indoor Regio Cup Check‑In. Diese App ermöglicht das Importieren von Gästelisten per CSV, das Scannen von QR‑Codes, die Anzeige einer Ticketübersicht, den Versand von E‑Mails mit QR‑Codes, das Zurücksetzen von Scan‑Status sowie die Darstellung von Statistiken und einer QR‑Code‑Galerie.
 
 # Version der App. Die Build‑Nummer kann bei Bedarf erhöht werden.
-version: 1.0.0+2
+version: 1.0.0+3
 
 # Unterstützte Flutter‑SDK Version
 environment:
