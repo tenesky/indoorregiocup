@@ -3,7 +3,7 @@ description: Eine Flutter App für den Indoor Regio Cup
 publish_to: "none"
 
 # Versionsnummer: <version>+<build>
-version: 1.0.2+4
+version: 1.0.2+5
 environment:
   sdk: ">=2.19.0 <4.0.0"
 

@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 
 /// Gemeinsamer Drawer für die Navigation innerhalb der App.
 ///
-/// Enthält die Menüpunkte Startseite, Scanner, Ticketübersicht, QR-Codes,
-/// Statistiken und Einstellungen. Der Header zeigt jetzt das App-Logo
-/// aus `assets/logo.png` statt nur Text an.
+/// Die Seiten sind über Routen abgebildet. Über diesen Drawer können
+/// Anwender zwischen den Bereichen Startseite, Scanner, Ticketübersicht,
+/// QR-Galerie, Statistiken und Einstellungen wechseln.
+/// Der Header zeigt nur das Logo (assets/logo.png).
 class AppDrawer extends StatelessWidget {
+  /// Name der aktuell aktiven Route. Wird genutzt, um das passende
+  /// ListTile hervorzuheben.
   final String currentRoute;
 
   const AppDrawer({Key? key, required this.currentRoute}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    /// Erstellt ein Navigationselement für den Drawer.
     ListTile _item(String title, String route) {
       return ListTile(
         title: Text(title),
@@ -27,26 +31,20 @@ class AppDrawer extends StatelessWidget {
 
     return Drawer(
       child: ListView(
+        padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: const BoxDecoration(color: Colors.blue),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Image.asset(
-                    'assets/logo.png',
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Indoor Regio Cup',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-              ],
+            decoration: const BoxDecoration(
+              color: Colors.white, // weißer Hintergrund
+            ),
+            child: Center(
+              child: Image.asset(
+                'assets/logo.png',
+                fit: BoxFit.contain,
+              ),
             ),
           ),
+          // Reihenfolge und Benennung der Menüpunkte
           _item('Startseite', '/'),
           _item('Scanner', '/scan'),
           _item('Ticketübersicht', '/tickets'),
