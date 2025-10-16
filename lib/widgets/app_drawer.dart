@@ -2,20 +2,16 @@ import 'package:flutter/material.dart';
 
 /// Gemeinsamer Drawer für die Navigation innerhalb der App.
 ///
-/// Die Seiten der Web‑Anwendung wurden in einzelne Routen abgebildet. Über
-/// diesen Drawer können Anwender schnell zwischen den Bereichen
-/// Startseite, CSV‑Upload, Scanner, Ticketübersicht, QR‑Galerie und
-/// Statistiken wechseln. Die aktuelle Route wird hervorgehoben.
+/// Enthält die Menüpunkte Startseite, Scanner, Ticketübersicht, QR-Codes,
+/// Statistiken und Einstellungen. Der Header zeigt jetzt das App-Logo
+/// aus `assets/logo.png` statt nur Text an.
 class AppDrawer extends StatelessWidget {
-  /// Name der aktuell aktiven Route. Wird genutzt, um das passende
-  /// ListTile hervorzuheben.
   final String currentRoute;
 
   const AppDrawer({Key? key, required this.currentRoute}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    /// Erstellt ein Navigationselement für den Drawer.
     ListTile _item(String title, String route) {
       return ListTile(
         title: Text(title),
@@ -33,20 +29,28 @@ class AppDrawer extends StatelessWidget {
       child: ListView(
         children: [
           DrawerHeader(
-            decoration: const BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: const Text(
-              'IRC Check‑In',
-              style: TextStyle(color: Colors.white, fontSize: 24),
+            decoration: const BoxDecoration(color: Colors.blue),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Image.asset(
+                    'assets/logo.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Indoor Regio Cup',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+              ],
             ),
           ),
-          // Die Reihenfolge und Benennung der Menüpunkte wurde zur besseren
-          // Übersichtlichkeit angepasst.
           _item('Startseite', '/'),
           _item('Scanner', '/scan'),
           _item('Ticketübersicht', '/tickets'),
-          _item('QR‑Codes', '/gallery'),
+          _item('QR-Codes', '/gallery'),
           _item('Statistiken', '/stats'),
           _item('Einstellungen', '/settings'),
         ],
