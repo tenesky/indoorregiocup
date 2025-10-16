@@ -45,5 +45,15 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<!-- Privacy usage descriptions required by Apple -->
+	<key>NSCameraUsageDescription</key>
+	<string>Die Kamera wird benötigt, um QR-Codes und Barcodes zu scannen.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Der Zugriff auf die Fotobibliothek wird benötigt, um Bilder hochzuladen oder auszuwählen.</string>
+
+	<!-- Mindest iOS Version -->
+	<key>MinimumOSVersion</key>
+	<string>12.0</string>
 </dict>
 </plist>
