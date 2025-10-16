@@ -1,37 +1,35 @@
-name: indoor_regio_cup_app
-description: Eine mobile Flutter‑App für den IRC Indoor Regio Cup Check‑In. Diese App ermöglicht das Importieren von Gästelisten per CSV, das Scannen von QR‑Codes, die Anzeige einer Ticketübersicht, den Versand von E‑Mails mit QR‑Codes, das Zurücksetzen von Scan‑Status sowie die Darstellung von Statistiken und einer QR‑Code‑Galerie.
+name: indoor_regio_cup
+description: Eine Flutter App für den Indoor Regio Cup
+publish_to: "none"
 
-# Version der App. Die Build‑Nummer kann bei Bedarf erhöht werden.
-version: 1.0.0+3
+# Versionsnummer: <version>+<build>
+version: 1.0.1+1
 
-# Unterstützte Flutter‑SDK Version
 environment:
-  # Dieses Projekt benötigt eine neuere Dart‑Version, um mit aktuellen
-  # Flutter‑Versionen und Bibliotheken zu arbeiten. Die untere Grenze
-  # erlaubt weiterhin ältere Projekte, die obere Grenze <4.0.0 schließt
-  # zukünftige inkompatible Hauptversionen aus.
-  sdk: ">=2.18.0 <4.0.0"
+  sdk: ">=2.19.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  # HTTP‑Client für API‑Aufrufe
-  # Aktualisierte HTTP‑Bibliothek für REST‑Aufrufe
-  http: ^1.2.2
-  # Datei‑Picker für den CSV‑Import
-  # Aktualisierter File Picker für den CSV‑Import
-  file_picker: ^8.1.2
-  # Scanner‑Bibliothek für QR‑Codes
-  # Aktualisierte Scanner‑Bibliothek – neuere Version erfordert
-  # Anpassungen im Code (siehe scan_page.dart)
-  mobile_scanner: ^7.1.2
-  # Für Dropdown‑Listen und andere Widgets wird keine zusätzliche Bibliothek benötigt
-  intl: ^0.20.2
+  cupertino_icons: ^1.0.2
+  http: ^0.13.6
+  shared_preferences: ^2.2.2
+  mobile_scanner: ^2.1.0
+  intl: ^0.18.1
+  file_picker: ^5.5.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.3
+  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/logo.png
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
