@@ -229,9 +229,14 @@ class _ScanPageState extends State<ScanPage> {
                   child: MobileScanner(
                     fit: BoxFit.cover,
                     // Erkennung von QR‑Codes
-                    onDetect: (capture) {
+                    // In neueren Versionen von mobile_scanner liefert onDetect ein
+                    // BarcodeCapture‑Objekt statt nur ein einzelnes Barcode. Die
+                    // Property `barcodes` auf BarcodeCapture enthält alle erkannten
+                    // Codes. Sobald ein gültiger Code gefunden wurde, wird der
+                    // Scan‑Handler aufgerufen.
+                    onDetect: (BarcodeCapture capture) {
                       for (final barcode in capture.barcodes) {
-                        final rawValue = barcode.rawValue;
+                        final String? rawValue = barcode.rawValue;
                         if (rawValue != null) {
                           _handleScan(rawValue);
                           break;
@@ -257,6 +262,7 @@ class _ScanPageState extends State<ScanPage> {
                         textAlign: TextAlign.center,
                       ),
                     ),
+                  ),
               ],
             ),
           ),

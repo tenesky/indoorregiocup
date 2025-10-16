@@ -6,19 +6,27 @@ version: 1.0.0+1
 
 # Unterstützte Flutter‑SDK Version
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  # Dieses Projekt benötigt eine neuere Dart‑Version, um mit aktuellen
+  # Flutter‑Versionen und Bibliotheken zu arbeiten. Die untere Grenze
+  # erlaubt weiterhin ältere Projekte, die obere Grenze <4.0.0 schließt
+  # zukünftige inkompatible Hauptversionen aus.
+  sdk: ">=2.18.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   # HTTP‑Client für API‑Aufrufe
-  http: ^0.13.5
+  # Aktualisierte HTTP‑Bibliothek für REST‑Aufrufe
+  http: ^1.2.2
   # Datei‑Picker für den CSV‑Import
-  file_picker: ^5.2.11
+  # Aktualisierter File Picker für den CSV‑Import
+  file_picker: ^8.1.2
   # Scanner‑Bibliothek für QR‑Codes
-  mobile_scanner: ^2.1.0
+  # Aktualisierte Scanner‑Bibliothek – neuere Version erfordert
+  # Anpassungen im Code (siehe scan_page.dart)
+  mobile_scanner: ^7.1.2
   # Für Dropdown‑Listen und andere Widgets wird keine zusätzliche Bibliothek benötigt
-  intl: ^0.18.0
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:

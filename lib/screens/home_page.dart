@@ -25,7 +25,10 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               'Willkommen zum IRC Indoor Regio Cup 2025!',
-              style: Theme.of(context).textTheme.headline5,
+              // In neueren Flutter‑Versionen wurden die TextTheme‑Getter umbenannt.
+              // `headline5` und `bodyText2` sind veraltet und wurden durch
+              // `headlineSmall` bzw. `bodyMedium` ersetzt.
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 12),
             Text(
@@ -37,7 +40,7 @@ class HomePage extends StatelessWidget {
               '- Sieh dir aktuelle Statistiken an und behalte den Überblick über die letzten Scans.\n'
               '- Durchstöbere die Galerie der bereits generierten QR‑Codes.\n\n'
               'Nutze das Menü oben links, um zu den einzelnen Funktionen zu gelangen.',
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 24),
             Row(
