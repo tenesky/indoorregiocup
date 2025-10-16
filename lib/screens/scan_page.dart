@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
+// removed: no JSON decoding needed
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:http/http.dart' as http;
+// removed: no direct HTTP calls; we use DatabaseService for DB queries
+import '../services/database_service.dart';
 import '../widgets/app_drawer.dart';
 
 /// Scanner‑Seite für das Einlesen von QR‑Codes.
@@ -97,32 +98,18 @@ class _ScanPageState extends State<ScanPage> {
     _lastDisplayedCode = ticketNumber;
     _lastDisplayedTime = now;
     try {
-      final uri = Uri.parse(
-        '${widget.baseUrl}/php/check_ticket.php?ticket_number=${Uri.encodeComponent(ticketNumber)}',
+      final result = await DatabaseService.checkTicket(ticketNumber);
+      final status = result['status'] as String? ?? 'invalid';
+      final category = result['category'] as String?;
+      final firstName = result['first_name'] as String?;
+      final lastName = result['last_name'] as String?;
+      _showResult(
+        status: status,
+        category: category,
+        firstName: firstName,
+        lastName: lastName,
+        code: ticketNumber,
       );
-      final response = await http.get(uri);
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> json = jsonDecode(response.body);
-        final status = json['status'] as String? ?? 'invalid';
-        final category = json['category'] as String?;
-        final firstName = json['first_name'] as String?;
-        final lastName = json['last_name'] as String?;
-        _showResult(
-          status: status,
-          category: category,
-          firstName: firstName,
-          lastName: lastName,
-          code: ticketNumber,
-        );
-      } else {
-        _showResult(
-          status: 'invalid',
-          category: null,
-          firstName: null,
-          lastName: null,
-          code: ticketNumber,
-        );
-      }
     } catch (_) {
       // Bei Fehlern zeigt die App ebenfalls „ungültig“ an
       _showResult(

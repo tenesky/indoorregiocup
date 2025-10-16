@@ -1,7 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import '../widgets/app_drawer.dart';
+import '../services/database_service.dart';
 
 /// Seite für die Einstellungen der App.
 ///
@@ -32,21 +31,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Future<void> _loadCurrentPassword() async {
     try {
-      final response = await http.get(
-        Uri.parse('${widget.baseUrl}/php/get_app_password.php'),
-      );
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-        setState(() {
-          _currentPassword = jsonResponse['password'] as String?;
-          _loading = false;
-        });
-      } else {
-        setState(() {
-          _error = 'Fehler beim Laden des Passworts.';
-          _loading = false;
-        });
-      }
+      final pwd = await DatabaseService.fetchAppPassword();
+      setState(() {
+        _currentPassword = pwd;
+        _loading = false;
+      });
     } catch (_) {
       setState(() {
         _error = 'Fehler beim Laden des Passworts.';
@@ -68,27 +57,16 @@ class _SettingsPageState extends State<SettingsPage> {
       return;
     }
     try {
-      final response = await http.post(
-        Uri.parse('${widget.baseUrl}/php/update_app_password.php'),
-        body: {'password': newPassword},
-      );
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-        final bool success = jsonResponse['success'] == true;
-        setState(() {
-          if (success) {
-            _message = 'Passwort erfolgreich aktualisiert.';
-            _currentPassword = newPassword;
-            _newPasswordController.clear();
-          } else {
-            _error = jsonResponse['message'] ?? 'Fehler beim Aktualisieren des Passworts.';
-          }
-        });
-      } else {
-        setState(() {
+      final success = await DatabaseService.updateAppPassword(newPassword);
+      setState(() {
+        if (success) {
+          _message = 'Passwort erfolgreich aktualisiert.';
+          _currentPassword = newPassword;
+          _newPasswordController.clear();
+        } else {
           _error = 'Fehler beim Aktualisieren des Passworts.';
-        });
-      }
+        }
+      });
     } catch (_) {
       setState(() {
         _error = 'Fehler beim Aktualisieren des Passworts.';

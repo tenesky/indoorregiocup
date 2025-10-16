@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
+// removed: no JSON decoding needed
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+// removed: no HTTP needed for stats
+import '../services/database_service.dart';
 import '../widgets/app_drawer.dart';
 
 /// Seite für Statistiken und aktuelle Scans.
@@ -54,43 +55,19 @@ class _StatsPageState extends State<StatsPage> {
   /// Holt Statistikdaten vom Server und aktualisiert die Ansicht.
   Future<void> _fetchStats() async {
     try {
-      final uri = Uri.parse('${widget.baseUrl}/php/stats_data.php?_=${DateTime.now().millisecondsSinceEpoch}');
-      final response = await http.get(uri);
-      if (response.statusCode == 200) {
-        final json = jsonDecode(response.body) as Map<String, dynamic>;
-        final summary = json['summary'] as Map<String, dynamic>?;
-        if (summary != null) {
-          setState(() {
-            _summary = {
-              'vollzahler': {
-                'scanned': summary['vollzahler']?['scanned'] ?? 0,
-                'total': summary['vollzahler']?['total'] ?? 0,
-              },
-              'ermäßigt': {
-                'scanned': summary['ermäßigt']?['scanned'] ?? 0,
-                'total': summary['ermäßigt']?['total'] ?? 0,
-              },
-              'vip': {
-                'scanned': summary['vip']?['scanned'] ?? 0,
-                'total': summary['vip']?['total'] ?? 0,
-              },
-              'mannschaft': {
-                'scanned': summary['mannschaft']?['scanned'] ?? 0,
-                'total': summary['mannschaft']?['total'] ?? 0,
-              },
-              'frei': {
-                'scanned': summary['frei']?['scanned'] ?? 0,
-                'total': summary['frei']?['total'] ?? 0,
-              },
-            };
-            _totalScanned = json['total_scanned'] ?? 0;
-            _totalTickets = json['total_tickets'] ?? 0;
-            _lastScans = json['last_scans'] as List<dynamic>? ?? [];
-          });
-        }
-      }
+      final stats = await DatabaseService.fetchStats();
+      final summary = stats['summary'] as Map<String, Map<String, int>>;
+      final totalScanned = stats['total_scanned'] as int;
+      final totalTickets = stats['total_tickets'] as int;
+      final lastScans = stats['last_scans'] as List<dynamic>;
+      setState(() {
+        _summary = summary;
+        _totalScanned = totalScanned;
+        _totalTickets = totalTickets;
+        _lastScans = lastScans;
+      });
     } catch (_) {
-      // Fehler werden ignoriert, die Ansicht bleibt unverändert
+      // Fehler ignorieren – Anzeige bleibt unverändert
     }
   }
 

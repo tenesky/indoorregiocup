@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import '../services/database_service.dart';
 import '../widgets/app_drawer.dart';
 
 /// Seite mit der Ticketübersicht.
@@ -39,14 +40,10 @@ class _TicketsPageState extends State<TicketsPage> {
       _loading = true;
     });
     try {
-      final uri = Uri.parse('${widget.baseUrl}/php/get_tickets.php');
-      final response = await http.get(uri);
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body) as List<dynamic>;
-        setState(() {
-          _tickets = data;
-        });
-      }
+      final data = await DatabaseService.fetchTickets();
+      setState(() {
+        _tickets = data;
+      });
     } catch (_) {
       // Fehler werden durch die Anzeige des Ladezustands signalisiert
     } finally {
@@ -202,15 +199,7 @@ class _TicketsPageState extends State<TicketsPage> {
     );
     if (confirm != true) return;
     try {
-      final uri = Uri.parse('${widget.baseUrl}/php/reset_scans.php');
-      final response = await http.post(uri);
-      int affected = 0;
-      if (response.statusCode == 200) {
-        final json = jsonDecode(response.body);
-        if (json['success'] == true) {
-          affected = json['affected'] ?? 0;
-        }
-      }
+      final affected = await DatabaseService.resetAllScans();
       await _fetchTickets();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

@@ -1,8 +1,9 @@
-import 'dart:convert';
+// removed: no JSON decoding needed
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+// http import removed: not used, QR images are loaded directly by Image.network
 import '../widgets/app_drawer.dart';
+import '../services/database_service.dart';
 
 /// Seite, die eine Galerie aller generierten QR‑Codes anzeigt.
 ///
@@ -36,14 +37,10 @@ class _GalleryPageState extends State<GalleryPage> {
       _loading = true;
     });
     try {
-      final uri = Uri.parse('${widget.baseUrl}/php/get_tickets.php');
-      final response = await http.get(uri);
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body) as List<dynamic>;
-        setState(() {
-          _tickets = data;
-        });
-      }
+      final data = await DatabaseService.fetchTickets();
+      setState(() {
+        _tickets = data;
+      });
     } catch (_) {
       // ignorieren
     } finally {
