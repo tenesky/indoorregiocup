@@ -14,7 +14,7 @@ dependencies:
   # HTTP‑Client für API‑Aufrufe
   http: ^0.13.5
   # Datei‑Picker für den CSV‑Import
-  file_picker: ^5.2.3
+  file_picker: ^5.2.11
   # Scanner‑Bibliothek für QR‑Codes
   mobile_scanner: ^2.1.0
   # Für Dropdown‑Listen und andere Widgets wird keine zusätzliche Bibliothek benötigt
