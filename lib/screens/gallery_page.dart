@@ -69,7 +69,7 @@ class _GalleryPageState extends State<GalleryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('QR‑Code Galerie'),
+        title: const Text('QR‑Codes'),
       ),
       drawer: AppDrawer(currentRoute: '/gallery'),
       body: Padding(

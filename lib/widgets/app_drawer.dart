@@ -41,12 +41,14 @@ class AppDrawer extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 24),
             ),
           ),
+          // Die Reihenfolge und Benennung der Menüpunkte wurde zur besseren
+          // Übersichtlichkeit angepasst.
           _item('Startseite', '/'),
-          _item('CSV hochladen', '/upload'),
           _item('Scanner', '/scan'),
-          _item('Übersicht', '/tickets'),
+          _item('Ticketübersicht', '/tickets'),
           _item('QR‑Codes', '/gallery'),
           _item('Statistiken', '/stats'),
+          _item('Einstellungen', '/settings'),
         ],
       ),
     );

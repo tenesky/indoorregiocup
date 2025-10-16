@@ -25,7 +25,8 @@ class _ScanPageState extends State<ScanPage> {
   // Zustandsvariablen für die Anzeige
   bool _overlayVisible = false;
   Color _overlayColor = Colors.transparent;
-  String _overlayText = '';
+  String _overlayTitle = '';
+  String _overlaySubtitle = '';
   Timer? _overlayTimer;
 
   // Zur Vermeidung von Doppelscans
@@ -142,56 +143,61 @@ class _ScanPageState extends State<ScanPage> {
     required String? lastName,
     required String code,
   }) {
-    String text;
+    String title;
+    String subtitle;
     Color overlayColor;
     Color borderColor;
     if (status == 'invalid') {
-      text = 'Ticket ungültig oder nicht gefunden.';
-      overlayColor = const Color.fromRGBO(220, 53, 69, 0.5);
+      title = 'Ungültiges Ticket';
+      subtitle = 'Ticket nicht gefunden oder ungültig.';
+      overlayColor = const Color.fromRGBO(220, 53, 69, 0.6);
       borderColor = Colors.red;
     } else if (status == 'already_scanned') {
       final name = '${firstName ?? ''} ${lastName ?? ''}'.trim();
-      text = 'Ticket für $name wurde bereits eingecheckt.';
-      overlayColor = const Color.fromRGBO(220, 53, 69, 0.5);
-      borderColor = Colors.red;
+      title = 'Bereits eingecheckt';
+      subtitle = 'Ticket für $name wurde bereits eingecheckt.';
+      overlayColor = const Color.fromRGBO(240, 173, 78, 0.6);
+      borderColor = Colors.orange;
     } else {
       final name = '${firstName ?? ''} ${lastName ?? ''}'.trim();
       String typeDesc;
       switch (category) {
         case 'vollzahler':
           typeDesc = 'Vollzahler';
-          overlayColor = const Color.fromRGBO(40, 167, 69, 0.5);
+          overlayColor = const Color.fromRGBO(40, 167, 69, 0.6);
           borderColor = Colors.green;
           break;
         case 'ermäßigt':
           typeDesc = 'Ermäßigt';
-          overlayColor = const Color.fromRGBO(240, 173, 78, 0.5);
+          overlayColor = const Color.fromRGBO(240, 173, 78, 0.6);
           borderColor = Colors.orange;
           break;
         case 'vip':
           typeDesc = 'VIP';
-          overlayColor = const Color.fromRGBO(111, 66, 193, 0.5);
+          overlayColor = const Color.fromRGBO(111, 66, 193, 0.6);
           borderColor = Colors.purple;
           break;
         case 'mannschaft':
           typeDesc = 'Mannschaft';
-          overlayColor = const Color.fromRGBO(0, 123, 255, 0.5);
+          overlayColor = const Color.fromRGBO(0, 123, 255, 0.6);
           borderColor = Colors.blue;
           break;
         case 'frei':
         default:
           typeDesc = category ?? '';
-          overlayColor = const Color.fromRGBO(108, 117, 125, 0.5);
+          overlayColor = const Color.fromRGBO(108, 117, 125, 0.6);
           borderColor = Colors.grey;
           break;
       }
-      text = 'Willkommen $name! Kategorie: $typeDesc.';
+      title = 'Willkommen $name';
+      subtitle = 'Kategorie: $typeDesc';
     }
     _overlayTimer?.cancel();
     setState(() {
       _overlayColor = overlayColor;
       _borderColor = borderColor;
-      _overlayText = text;
+      _overlayTitle = title;
+      _overlaySubtitle = subtitle;
       _overlayVisible = true;
     });
     _overlayTimer = Timer(const Duration(seconds: 4), () {
@@ -250,16 +256,31 @@ class _ScanPageState extends State<ScanPage> {
                   Positioned.fill(
                     child: Container(
                       color: _overlayColor,
-                      alignment: Alignment.center,
                       padding: const EdgeInsets.all(16),
-                      child: Text(
-                        _overlayText,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                      child: Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              _overlayTitle,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              _overlaySubtitle,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
