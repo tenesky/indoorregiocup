@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _loading = false;
   String? _error;
 
-  /// Lädt das aktuell in der Datenbank gespeicherte Passwort.
+  /// Holt das aktuell in der Datenbank gespeicherte Passwort (Klartext).
   Future<String?> _getStoredPassword() async {
     try {
       final response = await http.get(
@@ -47,12 +46,9 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     final entered = _passwordController.text.trim();
-    final enteredHash = sha256.convert(utf8.encode(entered)).toString();
-
     final storedPassword = await _getStoredPassword();
 
-    final isCorrect = storedPassword != null &&
-        (entered == storedPassword || enteredHash == storedPassword);
+    final isCorrect = storedPassword != null && entered == storedPassword;
 
     if (isCorrect) {
       final prefs = await SharedPreferences.getInstance();
